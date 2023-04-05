@@ -3,8 +3,6 @@ from google.oauth2 import service_account
 from google.auth.transport.requests import AuthorizedSession
 
 # Built in libraries
-import json
-import os
 import random
 import webbrowser
 import time
