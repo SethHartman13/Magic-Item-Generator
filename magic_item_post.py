@@ -5,6 +5,8 @@ from google.auth.transport.requests import AuthorizedSession
 # Built in libraries
 import json
 import os
+import time
+import webbrowser
 
 # Directory of destination folder
 DB_FOLDER = "magic_items/common"
@@ -68,3 +70,20 @@ for file in file_names:
     else:
         print(
             f"Response came back with status code {response.status_code} with {file}")
+
+        while True:
+            user_input = input(
+                f"Would you like to look up status code {response.status_code}? (Y/N) ")
+            user_input.lower()
+
+            if user_input == "y" or user_input == "yes" or user_input == "1":
+                print("Your browser will pull up a wikipedia article.")
+                time.wait(3)
+                webbrowser.open(
+                    "https://en.wikipedia.org/wiki/List_of_HTTP_status_codes")
+                break
+            elif user_input == "n" or user_input == "no" or user_input == "0":
+                break
+
+            else:
+                print("Invalid input")
