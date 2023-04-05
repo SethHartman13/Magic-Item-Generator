@@ -1,3 +1,4 @@
+# Request libraries
 from google.oauth2 import service_account
 from google.auth.transport.requests import AuthorizedSession
 
@@ -7,16 +8,23 @@ import os
 import time
 import webbrowser
 
-# Directory of file
-DB_FOLDER = "magic_items/uncommon/"
+# Directory of destination folder
+DB_FOLDER = "magic_items/common"
 
-FILE_NAME = "weapon_1.json"
-
-# File location of JSON
-FILE = f"{os.getcwd()}/{DB_FOLDER}/{FILE_NAME}"
+# Name of JSON to be deleted
+FILE_NAME = "potion_of_healing.json"
 
 # Index JSON
 INDEX_JSON_DIR = f"{os.getcwd()}/storage_data/index.json"
+
+# Unique DB ID
+with open(INDEX_JSON_DIR, 'r') as f:
+        index_json = json.load(f)
+
+UNIQUE_ID = index_json[FILE_NAME]
+
+# Database destination JSON
+FULL_DB_URL = f"https://magic-items-a68a1-default-rtdb.firebaseio.com/{DB_FOLDER}/{UNIQUE_ID}.json"
 
 # Authentication setup
 SCOPES = [
@@ -26,28 +34,29 @@ SCOPES = [
 CREDENTIALS = service_account.Credentials.from_service_account_file(
     "credentials.json", scopes=SCOPES)
 
+# -----------------------------------------------------------------------------------------------
+
+# Authenticate session object
 auth_session = AuthorizedSession(CREDENTIALS)
 
-
-# Grab unique ID from the index JSON
-
-with open(INDEX_JSON_DIR, 'r') as f:
-    index_json = json.load(f)
-
-unique_id = index_json[FILE_NAME]
-
-full_db_url = f"https://magic-items-a68a1-default-rtdb.firebaseio.com/{DB_FOLDER}/{unique_id}.json"
-
-# Reads changed JSON
-with open(FILE, "r") as f:
-    json_file = f.read()
-
-# Sends JSON to database
-response = auth_session.put(full_db_url, data=json_file)
+# Delete JSON from database
+response = auth_session.delete(FULL_DB_URL)
 
 # If the database says it was a good request
 if response.status_code == 200:
-    print(f"{FILE_NAME} successfully updated!")
+    
+    # Reads index JSON
+    with open(INDEX_JSON_DIR, 'r') as f:
+        index_json = json.load(f)
+
+    # We remove the date from the index JSON dictionary
+    del index_json[FILE_NAME]
+
+    # Overwrites index JSON (with formatting)
+    with open(INDEX_JSON_DIR, 'w') as f:
+        json.dump(index_json, f, indent=4, sort_keys=True)
+    
+    print(f"{FILE_NAME} successfully deleted!")
 
 # If the database says it was not a good request
 else:

@@ -13,7 +13,6 @@ import time
 MAX_AMMO = 20
 
 # Min ammunition gained (for ammo)
-
 MIN_AMMO = 5
 
 # Authentication setup
@@ -106,7 +105,7 @@ if response.status_code == 200:
             base_weapons = item_dict['base_weapons']
 
             # If it is ammunition
-            if base_weapons == None:
+            if base_weapons == "None":
 
                 # Random number of ammo
                 number_of_ammo = random.randint(MIN_AMMO, MAX_AMMO)
@@ -120,7 +119,7 @@ if response.status_code == 200:
                 # base_weapons must be stored in a list, regardless of the number of base_weapons
                 base_weapon = f"({base_weapons[random.randint(0,len(base_weapons) - 1)]})"
 
-            print(f"Name: {item_name} {base_weapons}")
+            print(f"Name: {item_name} {base_weapon}")
             print(f"Details: {item_details}\n")
 
         # If the magic item is a wondrous item
@@ -131,13 +130,13 @@ if response.status_code == 200:
             if attunement:
                 special_attunement_details = item_dict['attunement_type']
 
-            # If attunement is not requiremd
+            # If attunement is not required
             else:
                 special_attunement_details = "No attunement"
 
             print(f"Name: {item_name}")
             print(f"Special Attunement Details: {special_attunement_details}")
-            print(f"Details: {item_details}")
+            print(f"Details: {item_details}\n")
 
         # If the magic item is invalid or has not been programmed yet.
         else:
