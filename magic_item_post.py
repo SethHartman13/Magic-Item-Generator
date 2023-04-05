@@ -92,5 +92,7 @@ for file in file_names:
 
                 else:
                     print("Invalid input")
+                    
+    # If the file already exists within index.JSON
     else:
         print(f"{file} already exists with unique ID {index_json[file]}")
