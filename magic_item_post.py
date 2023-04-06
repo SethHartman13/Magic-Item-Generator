@@ -9,7 +9,7 @@ import time
 import webbrowser
 
 # Directory of destination folder
-DB_FOLDER = "magic_items/uncommon"
+DB_FOLDER = "magic_items/common"
 
 # File directory of JSONs
 FILE_FOLDER = f"{os.getcwd()}/{DB_FOLDER}/"

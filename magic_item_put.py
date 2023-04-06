@@ -8,9 +8,9 @@ import time
 import webbrowser
 
 # Directory of file
-DB_FOLDER = "magic_items/uncommon/"
+DB_FOLDER = "magic_items/common/"
 
-FILE_NAME = "weapon_1.json"
+FILE_NAME = "spell_scroll_first.json"
 
 # File location of JSON
 FILE = f"{os.getcwd()}/{DB_FOLDER}/{FILE_NAME}"
